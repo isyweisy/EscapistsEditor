@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -142,7 +143,11 @@ public class EscapistsEditor {
                         dialog("New version found (" + newVersion + "). " +
                                 "Download it at http://escapists.jselby.net\n" + message);
                     }
-                } catch (IOException e) {
+                }
+                catch (UnknownHostException e) {
+                    System.err.println("Failiure to check for updates! Failed to resolve hostname.");
+                }
+                catch (IOException e) {
                     e.printStackTrace();
                 }
             }
