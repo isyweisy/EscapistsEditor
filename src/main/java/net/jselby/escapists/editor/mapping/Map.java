@@ -149,6 +149,7 @@ public class Map {
 
         // Decode tiles for this
         String texName = (String) get("Info.Tileset");
+        String floorName = (String) get("Info.Floor");
         File tilesFile = new File(editor.escapistsPath, "Data" +
                 File.separator + "images" + File.separator + "custom" + File.separator + "tiles_cus_" + texName + ".gif");
         if (!tilesFile.exists()) {
@@ -158,9 +159,9 @@ public class Map {
         }
 
         File background = new File(editor.escapistsPath, "Data" +
-                File.separator + "images" + File.separator + "custom" + File.separator + "ground_cus_" + texName + ".gif");
+                File.separator + "images" + File.separator + "custom" + File.separator + "ground_cus_" + floorName + ".gif");
         if (!background.exists()) {
-            System.out.println(" > No background found for \"" + texName + "\". Using \"perks\".");
+            System.out.println(" > No background found for \"" + floorName + "\". Using \"perks\".");
             background = new File(editor.escapistsPath, "Data" +
                     File.separator + "images" + File.separator + "custom" + File.separator + "ground_cus_perks.gif");
         }

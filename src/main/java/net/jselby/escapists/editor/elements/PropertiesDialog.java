@@ -40,6 +40,7 @@ public class PropertiesDialog extends JDialog {
         fieldsToEdit.add(stringField(mapToEdit, "Music", "Info.Music"));
         fieldsToEdit.add(stringField(mapToEdit, "Fight Frequency", "Info.FightFreq"));
         fieldsToEdit.add(stringField(mapToEdit, "Tileset", "Info.Tileset"));
+        fieldsToEdit.add(stringField(mapToEdit, "Background", "Info.Floor"));
         fieldsToEdit.add(stringField(mapToEdit, "Warden name", "Info.Warden"));
         fieldsToEdit.add(textBoxField(mapToEdit, "Intro text", "Info.Intro"));
 
