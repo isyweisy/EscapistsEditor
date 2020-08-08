@@ -88,13 +88,32 @@ public class EscapistsEditor {
 
         // I don't support piracy, in terms of obtaining support for such.
         // This hashes the steam_api.dll, checking for bad stuff there.
-        File file = new File(escapistsPath, "steam_api.dll");
-        if (file.exists()) {
+        File fileWin = new File(escapistsPath, "steam_api.dll");
+        File fileLin64 = new File(escapistsPath, "bin64" + File.separator + "libsteam_api.so");
+        File fileLin32 = new File(escapistsPath, "bin32" + File.separator + "libsteam_api.so");
+        int apiCount = 0;
+        if (fileWin.exists()) {
             try {
-                String hash = IOUtils.hash(file);
+                String hash = IOUtils.hash(fileWin);
                 System.out.println("Hash: " + hash);
+                apiCount++;
             } catch (Exception ignored) {}
-        } else {
+        }
+        if (fileLin64.exists()) {
+            try {
+                String hash = IOUtils.hash(fileLin64);
+                System.out.println("Hash 64: " + hash);
+                apiCount++;
+            } catch (Exception ignored) {}
+        }
+        if (fileLin32.exists()) {
+            try {
+                String hash = IOUtils.hash(fileLin32);
+                System.out.println("Hash 32: " + hash);
+                apiCount++;
+            } catch (Exception ignored) {}
+        }
+        if (apiCount == 0) {
             System.out.println("Warning: No Steam API in Escapists dir!");
         }
 
