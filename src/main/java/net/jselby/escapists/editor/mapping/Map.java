@@ -8,9 +8,12 @@ import net.jselby.escapists.editor.objects.ObjectRegistry;
 import net.jselby.escapists.editor.objects.Objects;
 import net.jselby.escapists.editor.objects.WorldObject;
 import net.jselby.escapists.editor.utils.BlowfishCompatEncryption;
+import net.jselby.escapists.editor.utils.IOUtils;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -147,23 +150,37 @@ public class Map {
         // Decode tiles for this
         String texName = (String) get("Info.Tileset");
         File tilesFile = new File(editor.escapistsPath, "Data" +
-                File.separator + "images" + File.separator + "tiles_" + texName + ".gif");
+                File.separator + "images" + File.separator + "custom" + File.separator + "tiles_cus_" + texName + ".gif");
         if (!tilesFile.exists()) {
             System.out.println(" > No tiles found for \"" + texName + "\". Using \"perks\".");
             tilesFile = new File(editor.escapistsPath, "Data" +
-                    File.separator + "images" + File.separator + "tiles_perks.gif");
+                    File.separator + "images" + File.separator + "custom" + File.separator + "tiles_cus_perks.gif");
         }
 
         File background = new File(editor.escapistsPath, "Data" +
-                File.separator + "images" + File.separator + "ground_" + texName + ".gif");
+                File.separator + "images" + File.separator + "custom" + File.separator + "ground_cus_" + texName + ".gif");
         if (!background.exists()) {
             System.out.println(" > No background found for \"" + texName + "\". Using \"perks\".");
             background = new File(editor.escapistsPath, "Data" +
-                    File.separator + "images" + File.separator + "ground_perks.gif");
+                    File.separator + "images" + File.separator + "custom" + File.separator + "ground_cus_perks.gif");
         }
 
         // Decrypt the tiles themselves
-        tilesImage = ImageIO.read(new ByteArrayInputStream(BlowfishCompatEncryption.decrypt(tilesFile)));
+        BufferedImage temp = ImageIO.read(new ByteArrayInputStream(IOUtils.toByteArray(tilesFile)));
+        tilesImage = new BufferedImage(temp.getWidth(),temp.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = tilesImage.createGraphics();
+        ImageObserver imo = null;
+        g.drawImage(temp, 0, 0, imo);
+        g.dispose();
+        int col;
+        for (int x = 0; x < tilesImage.getWidth(); x++) {
+            for (int y = 0; y < tilesImage.getHeight(); y++) {
+                col = tilesImage.getRGB(x, y);
+                if ((col & 16777215) == 16777215) {
+                    tilesImage.setRGB(x, y, col & 16777215);
+                }
+            }
+        }
         backgroundImage = ImageIO.read(background);
 
         // Pre filter me

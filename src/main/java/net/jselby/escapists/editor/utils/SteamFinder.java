@@ -72,7 +72,7 @@ public class SteamFinder {
         }
 
         // Ask user to find directory, if we are in a GUI.
-        editor.dialog("No Stream installation detected. Please locate The Escapists in the following prompt.");
+        editor.dialog("No Steam installation detected. Please locate The Escapists in the following prompt.");
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(new FileFilter() {
             @Override
