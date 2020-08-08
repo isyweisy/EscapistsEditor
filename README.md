@@ -27,4 +27,4 @@ If you want more advanced tools, invoking it as
 
 Feel free to tweak your map in the editor and, when completed, save it to a easy-to-access location. These can be pasted over the maps located at Data\Maps in the Escapists install directory for Stream (etc: C:\Program Files (x86)\Steam\steamapps\common\The Escapists\Data\Maps), but make **BACKUPS** first!
 
-The editor does require Java 1.8.
+The editor requires Java 11 or higher.
