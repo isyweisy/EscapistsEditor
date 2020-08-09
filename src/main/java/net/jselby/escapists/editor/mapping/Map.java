@@ -7,7 +7,6 @@ import net.jselby.escapists.editor.mapping.store.PropertiesSection;
 import net.jselby.escapists.editor.objects.ObjectRegistry;
 import net.jselby.escapists.editor.objects.Objects;
 import net.jselby.escapists.editor.objects.WorldObject;
-import net.jselby.escapists.editor.utils.BlowfishCompatEncryption;
 import net.jselby.escapists.editor.utils.IOUtils;
 
 import javax.imageio.ImageIO;
@@ -328,19 +327,19 @@ public class Map {
         if (!selectedFile.getName().toLowerCase().endsWith(".proj")) {
             // Do checks
             // Correct points for guards
-            if (count(Objects.AI_WP_GUARD_ROLLCALL) != 3) {
+            if (count(Objects.GUARD_ROLLCALL) != 3) {
                 throw new IOException("Compile Error: Invalid amount of rollcall guard waypoints - \n" +
                         "You need 3.");
             }
-            if (count(Objects.AI_WP_GUARD_MEALS) != 3) {
+            if (count(Objects.GUARD_CANTEEN) != 3) {
                 throw new IOException("Compile Error: Invalid amount of meal guard waypoints - \n" +
                         "You need 3.");
             }
-            if (count(Objects.AI_WP_GUARD_EXERCISE) != 3) {
+            if (count(Objects.GUARD_GYM) != 3) {
                 throw new IOException("Compile Error: Invalid amount of exercise guard waypoints - \n" +
                         "You need 3.");
             }
-            if (count(Objects.AI_WP_GUARD_SHOWERS) != 3) {
+            if (count(Objects.GUARD_SHOWERS) != 3) {
                 throw new IOException("Compile Error: Invalid amount of shower guard waypoints - \n" +
                         "You need 3.");
             }
@@ -348,7 +347,7 @@ public class Map {
                 throw new IOException("Compile Error: Invalid amount of guard beds - \n" +
                         "You need more than 1.");
             }
-            if (count(Objects.AI_WP_GUARD_GENERAL) < 5) {
+            if (count(Objects.GUARD_WANDER) < 5) {
                 throw new IOException("Compile Error: Invalid amount of general guard waypoints - \nYou need more than 4.");
             }
 
@@ -365,10 +364,10 @@ public class Map {
             }
 
             // Player stuff
-            if ((count(Objects.FORCED_PRISONER_BED) + count(Objects.FORCED_SIDEWAYS_PRISONER_BED)) != 1) {
+            if ((count(Objects.PLAYER_BED_VERTICAL) + count(Objects.PLAYER_BED_HORIZONTAL)) != 1) {
                 throw new IOException("Compile Error: You need a single forced prisoner bed for the player!");
             }
-            if (count(Objects.FORCED_PRISONER_DESK) != 1) {
+            if (count(Objects.PLAYER_DESK) != 1) {
                 throw new IOException("Compile Error: You need a single forced prisoner desk for the player!");
             }
             if (count(Objects.SOLITARY_BED) == 0) {
@@ -379,7 +378,7 @@ public class Map {
             }
 
             // Other desk stuff
-            if ((count(Objects.BED) + count(Objects.SIDEWAYS_PRISONER_BED)) < (required - 1)) {
+            if ((count(Objects.PRISONER_BED_VERTICAL) + count(Objects.PRISONER_BED_HORIZONTAL)) < (required - 1)) {
                 throw new IOException("Compile Error: You need " + (required - 1) + " general beds for non-player prisoners!");
             }
 
@@ -389,10 +388,10 @@ public class Map {
             }
 
             // Food trays
-            if (count(Objects.SERVING_TABLE) < 3) {
+            if (count(Objects.FOOD_TABLE) < 3) {
                 throw new IOException("Compile Error: You need at least 3 serving tables!");
             }
-            if (count(Objects.AI_WP_PRISONER_MEALS) == 0) {
+            if (count(Objects.PRISONER_CANTEEN) == 0) {
                 throw new IOException("Compile Error: You need a prisoner meals waypoint!");
             }
             if (count(Objects.CHAIR) < (required - 1)) {
@@ -405,22 +404,22 @@ public class Map {
             }
 
             // Other NPC prisoners
-            if (count(Objects.AI_WP_PRISONER_ROLLCALL) != (required - 1)) {
+            if (count(Objects.PRISONER_ROLLCALL) != (required - 1)) {
                 throw new IOException("Compile Error: You need " + (required - 1) + " rollcall waypoints for prisoners!");
             }
-            if (count(Objects.PERSONAL_DESK) < (required - 1)) {
+            if (count(Objects.PRISONER_DESK) < (required - 1)) {
                 throw new IOException("Compile Error: You need " + (required - 1) + " standard personal desks for non-player prisoners!");
             }
-            if (count(Objects.AI_WP_PRISONER_GENERAL) < 5) {
+            if (count(Objects.PRISONER_WANDER) < 5) {
                 throw new IOException("Compile Error: You need at least 5 general waypoints for prisoners!");
             }
-            if (count(Objects.AI_NPC_SPAWN) != 1) {
+            if (count(Objects.NPC_SPAWN) != 1) {
                 throw new IOException("Compile Error: You need a single AI Npc Spawn point!");
             }
-            if (count(Objects.AI_WP_DOCTOR_WORK) != 1) {
+            if (count(Objects.MEDIC) != 1) {
                 throw new IOException("Compile Error: You need a single AI Doctor Work waypoint!");
             }
-            if (count(Objects.AI_WP_EMPLOYMENT_OFFICER) != 1) {
+            if (count(Objects.JOB_OFFICER) != 1) {
                 throw new IOException("Compile Error: You need a single AI Employment Officer waypoint!");
             }
 
