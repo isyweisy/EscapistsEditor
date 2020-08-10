@@ -450,3 +450,8 @@ Gardening=
 Safe1=500_500_660_660
 Safe2=
 Safe3=
+[Perim]
+Top=16
+Bottom=1472
+Left=16
+Right=1456
