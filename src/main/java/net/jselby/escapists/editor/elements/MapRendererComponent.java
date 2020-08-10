@@ -141,6 +141,10 @@ public class MapRendererComponent extends JPanel {
         renderer.showZones = showZones;
     }
 
+    public void setShowPerimeter(boolean showPerimeter) {
+        renderer.showPerimeter = showPerimeter;
+    }
+
     public void setView(String view) {
         this.view = view;
     }

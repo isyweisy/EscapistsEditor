@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class MapRenderer {
 
     // These are public for ease-of-use
+    public boolean showPerimeter = false;
     public boolean showZones = false;
     public boolean zoneEditing = false;
 
@@ -36,6 +37,7 @@ public class MapRenderer {
         layers.add(new VentsLayer());
         layers.add(new RoofLayer());
         layers.add(new ZoneLayer());
+        layers.add(new PerimeterLayer());
     }
 
     public BufferedImage render(Map map, String view) {
@@ -60,6 +62,10 @@ public class MapRenderer {
         // Render zones, if required
         if (showZones) {
             g.drawImage(renderLayer(map, 4), null, 0, 0);
+        }
+
+        if (showPerimeter){
+            g.drawImage(renderLayer(map, 5), null, 0, 0);
         }
 
         return renderPlatform;

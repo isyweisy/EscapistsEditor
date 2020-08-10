@@ -49,6 +49,7 @@ public class RenderView extends JFrame {
     private ActionMode mode = ActionMode.CREATE_OBJECT;
     private int bigBrush;
 
+    private boolean showPerimeter;
     private boolean showZone;
     private String currentZone = "World";
     private JPanel iconPanel;
@@ -504,6 +505,22 @@ public class RenderView extends JFrame {
         });
         showZones.setAlignmentX(CENTER_ALIGNMENT);
         sidebar.add(showZones);
+        sidebar.add(Box.createVerticalStrut(30));
+
+        final JCheckBox showPerimeters = new JCheckBox();
+        showPerimeters.setFocusable(false);
+        showPerimeters.setText("Show Perimeter");
+        showPerimeters.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showPerimeter = showPerimeters.isSelected();
+
+                renderer.setShowPerimeter(showPerimeter);
+                renderer.refresh();
+            }
+        });
+        showPerimeters.setAlignmentX(CENTER_ALIGNMENT);
+        sidebar.add(showPerimeters);
         sidebar.add(Box.createVerticalStrut(30));
 
         JComponent seperator = (JComponent) Box.createRigidArea(new Dimension(150, 10));
