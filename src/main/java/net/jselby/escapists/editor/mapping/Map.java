@@ -328,74 +328,81 @@ public class Map {
             // Do checks
             // Correct points for guards
             if (count(Objects.GUARD_ROLLCALL) != 3) {
-                throw new IOException("Compile Error: Invalid amount of rollcall guard waypoints - \n" +
+                throw new IOException("Compile Error: Invalid number of guard rollcall waypoints - \n" +
                         "You need 3.");
             }
             if (count(Objects.GUARD_CANTEEN) != 3) {
-                throw new IOException("Compile Error: Invalid amount of meal guard waypoints - \n" +
+                throw new IOException("Compile Error: Invalid number of guard canteen waypoints - \n" +
                         "You need 3.");
             }
             if (count(Objects.GUARD_GYM) != 3) {
-                throw new IOException("Compile Error: Invalid amount of exercise guard waypoints - \n" +
+                throw new IOException("Compile Error: Invalid number of guard gym waypoints - \n" +
                         "You need 3.");
             }
             if (count(Objects.GUARD_SHOWERS) != 3) {
-                throw new IOException("Compile Error: Invalid amount of shower guard waypoints - \n" +
+                throw new IOException("Compile Error: Invalid number of guard shower waypoints - \n" +
                         "You need 3.");
             }
             if (count(Objects.GUARD_BED) < 2) {
-                throw new IOException("Compile Error: Invalid amount of guard beds - \n" +
-                        "You need more than 1.");
+                throw new IOException("Compile Error: Invalid number of guard beds - \n" +
+                        "You need at least 2.");
             }
             if (count(Objects.GUARD_WANDER) < 5) {
-                throw new IOException("Compile Error: Invalid amount of general guard waypoints - \nYou need more than 4.");
+                throw new IOException("Compile Error: Invalid number of guard wander waypoints - \nYou need at least 5.");
             }
 
             // Workout equipment
-            int count = 0;
-            for (Objects object : Objects.values()) {
-                if (object.name().toLowerCase().startsWith("training")) {
-                    count += count(object);
-                }
-            }
             int required = Integer.parseInt(get("Info.Inmates").toString());
-            if (count < required) {
-                throw new IOException("Compile Error: Invalid amount of training objects - \nYou need more than " + (count - 1) + ".");
+            if ((count(Objects.TREADMILL) + count(Objects.JOGGING) + count(Objects.SKIPPING) + count(Objects.SPEEDBAG) + count(Objects.WEIGHT) + count(Objects.PRESSUPS) + count(Objects.PUNCHBAG) + count(Objects.CHINUPS)) < required) {
+                throw new IOException("Compile Error: Invalid number of workout objects - \nYou need at least " + required + ".");
+            }
+
+            if ((count(Objects.BOOKSHELF) + count(Objects.COMPUTER)) < 1) {
+                throw new IOException("Compile Error: Invalid number of intelligence objects - \nYou need at least 1.");
+            }
+
+            if ((count(Objects.TREADMILL) + count(Objects.JOGGING) + count(Objects.SKIPPING) + count(Objects.SPEEDBAG)) < 1) {
+                throw new IOException("Compile Error: Invalid number of speed objects - \nYou need at least 1.");
+            }
+
+            if ((count(Objects.WEIGHT) + count(Objects.PRESSUPS) + count(Objects.PUNCHBAG) + count(Objects.CHINUPS)) < 1) {
+                throw new IOException("Compile Error: Invalid number of strength objects - \nYou need at least 1.");
             }
 
             // Player stuff
             if ((count(Objects.PLAYER_BED_VERTICAL) + count(Objects.PLAYER_BED_HORIZONTAL)) != 1) {
-                throw new IOException("Compile Error: You need a single forced prisoner bed for the player!");
+                throw new IOException("Compile Error: Invalid number of player beds - \nYou need exactly 1.");
             }
+
             if (count(Objects.PLAYER_DESK) != 1) {
-                throw new IOException("Compile Error: You need a single forced prisoner desk for the player!");
+                throw new IOException("Compile Error: Invalid number of player desks - \nYou need exactly 1.");
             }
             if (count(Objects.SOLITARY_BED) == 0) {
-                throw new IOException("Compile Error: You need at least 1 solitary bed!");
+                throw new IOException("Compile Error: Invalid number of solitary beds - \nYou need at least 1.");
             }
             if (count(Objects.MEDICAL_BED) == 0) {
-                throw new IOException("Compile Error: You need at least 1 medical bed!");
+                throw new IOException("Compile Error: Invalid number of medical beds - \nYou need at least 1.");
             }
 
             // Other desk stuff
             if ((count(Objects.PRISONER_BED_VERTICAL) + count(Objects.PRISONER_BED_HORIZONTAL)) < (required - 1)) {
-                throw new IOException("Compile Error: You need " + (required - 1) + " general beds for non-player prisoners!");
+                throw new IOException("Compile Error: Invalid number of prisoner beds - \nYou need at least" + (required - 1) + ".");
             }
 
             // Lights
             if (count(Objects.LIGHT) == 0) {
-                throw new IOException("Compile Error: You need some Light objects!");
+                throw new IOException("Compile Error: Invalid number of lights - \nYou need at least 1.");
             }
 
             // Food trays
             if (count(Objects.FOOD_TABLE) < 3) {
-                throw new IOException("Compile Error: You need at least 3 serving tables!");
+                throw new IOException("Compile Error: Invalid number of food tables - \nYou need at least 3.");
             }
             if (count(Objects.PRISONER_CANTEEN) == 0) {
-                throw new IOException("Compile Error: You need a prisoner meals waypoint!");
+                throw new IOException("Compile Error: Invalid number of prisoner food collection waypoints - \nYou need at least 1.");
             }
-            if (count(Objects.CHAIR) < (required - 1)) {
-                throw new IOException("Compile Error: You need at least " + (required - 1) + " chairs in the canteen!");
+            if (count(Objects.CHAIR) < required) {
+                throw new IOException("Compile Error: Invalid number of canteen chairs - \nYou need at least " + required + ".");
             }
 
             // Warden name
@@ -405,22 +412,22 @@ public class Map {
 
             // Other NPC prisoners
             if (count(Objects.PRISONER_ROLLCALL) != (required - 1)) {
-                throw new IOException("Compile Error: You need " + (required - 1) + " rollcall waypoints for prisoners!");
+                throw new IOException("Compile Error: Invalid number of prisoner rollcall waypoints - \nYou need at least" + (required - 1) + ".");
             }
             if (count(Objects.PRISONER_DESK) < (required - 1)) {
-                throw new IOException("Compile Error: You need " + (required - 1) + " standard personal desks for non-player prisoners!");
+                throw new IOException("Compile Error: Invalid number of prisoner desks - \nYou need at least" + (required - 1) + ".");
             }
             if (count(Objects.PRISONER_WANDER) < 5) {
-                throw new IOException("Compile Error: You need at least 5 general waypoints for prisoners!");
+                throw new IOException("Compile Error: Invalid number of prisoner wander waypoints - \nYou need at least 5.");
             }
             if (count(Objects.NPC_SPAWN) != 1) {
-                throw new IOException("Compile Error: You need a single AI Npc Spawn point!");
+                throw new IOException("Compile Error: Invalid number of NPC spawn points - \nYou need exactly 1.");
             }
             if (count(Objects.MEDIC) != 1) {
-                throw new IOException("Compile Error: You need a single AI Doctor Work waypoint!");
+                throw new IOException("Compile Error: Invalid number of medic waypoints - \nYou need exactly 1.");
             }
             if (count(Objects.JOB_OFFICER) != 1) {
-                throw new IOException("Compile Error: You need a single AI Employment Officer waypoint!");
+                throw new IOException("Compile Error: Invalid number of job officer waypoints - \nYou need a exactly 1.");
             }
 
             // TODO: Zones

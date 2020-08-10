@@ -51,7 +51,7 @@ public enum Objects {
     WEIGHT(8),
     PRESSUPS(91),
     PUNCHBAG(97, 0, -1),
-    CHINUP(102),
+    CHINUPS(102),
 
     // Job items
     OVEN(4, 0, -1),
