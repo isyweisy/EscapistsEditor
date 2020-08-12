@@ -41,7 +41,7 @@ public class MapRendererComponent extends JPanel {
     private String view = "World";
     private MapRenderer renderer;
 
-    public MapRendererComponent(Map map, MouseListener clickListener, MouseMotionListener motionListener) {
+    public MapRendererComponent(RenderView view, Map map, MouseListener clickListener, MouseMotionListener motionListener) {
         this.mapToEdit = map;
 
         addMouseListener(clickListener);
@@ -55,6 +55,17 @@ public class MapRendererComponent extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if (renderer.showZones && renderer.zoneEditing) {
                     renderer.getZoning().mouseDown(mapToEdit, (int) ((float) e.getX() / (float) zoomFactor),
+                            (int) ((float) e.getY() / (float) zoomFactor));
+                    refresh();
+                }
+            }
+        });
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (renderer.showZones && renderer.zoneEditing) {
+                    renderer.getZoning().mouseUp(view, MapRendererComponent.this, mapToEdit, (int) ((float) e.getX() / (float) zoomFactor),
                             (int) ((float) e.getY() / (float) zoomFactor));
                     refresh();
                 }

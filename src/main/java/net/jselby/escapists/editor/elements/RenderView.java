@@ -271,7 +271,7 @@ public class RenderView extends JFrame {
         };
         mousePosition.setIgnoreRepaint(false);
 
-        renderer = new MapRendererComponent(mapToEdit, new MouseAdapter() {
+        renderer = new MapRendererComponent(this, mapToEdit, new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 // Get position

@@ -1,11 +1,15 @@
 package net.jselby.escapists.editor.layers.impl;
 
+import net.jselby.escapists.editor.elements.MapRendererComponent;
+import net.jselby.escapists.editor.elements.RenderView;
+import net.jselby.escapists.editor.elements.ZoneSelectionGUI;
 import net.jselby.escapists.editor.layers.Layer;
 import net.jselby.escapists.editor.mapping.Map;
 import net.jselby.escapists.editor.mapping.MapRenderer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -157,6 +161,40 @@ public class ZoneLayer extends Layer {
                     && y > zoneY1 && y < zoneY2) {
                 minZoneSize = size;
                 zoneClicked = values;
+            }
+        }
+    }
+
+    public void mouseUp(RenderView view, MapRendererComponent renderer, Map map, int x, int y) {
+
+        if (zoneClicked != null) {
+            zoneClicked = null;
+            return;
+        }
+        else {
+            try {
+                int x1, y1, x2, y2;
+                if (origX < x) {
+                    x1 = origX;
+                    x2 = x;
+                }
+                else {
+                    x1 = x;
+                    x2 = origX;
+                }
+                if (origY < y) {
+                    y1 = origY;
+                    y2 = y;
+                }
+                else {
+                    y1 = y;
+                    y2 = origY;
+                }
+
+                view.setEnabled(false);
+                new ZoneSelectionGUI(renderer, map, x1, y1, x2, y2).setOldView(view);
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         }
     }
