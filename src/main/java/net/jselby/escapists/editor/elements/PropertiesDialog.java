@@ -130,9 +130,19 @@ public class PropertiesDialog extends JDialog {
         setVisible(true);
     }
 
-    private static JComponent[] numberField(final Map mapToEdit, String name, final String valueSrc) {
+    private static JComponent[] numberField(final Map mapToEdit, String name, final String valueSrc, final Integer defaultVal) {
         String startingContent = (String) mapToEdit.get(valueSrc);
-        startingContent = startingContent.trim();
+        try {
+            startingContent = startingContent.trim();
+        }
+        catch (NullPointerException e) {
+            if (defaultVal != null) {
+                startingContent = defaultVal.toString();
+            }
+            else {
+                startingContent = null;
+            }
+        }
 
         JLabel label = new JLabel(name);
 
@@ -186,9 +196,19 @@ public class PropertiesDialog extends JDialog {
         return new JComponent[]{label, contentField};
     }
 
-    private static JComponent[] booleanField(final Map mapToEdit, String name, final String valueSrc) {
+    private static JComponent[] numberField(final Map mapToEdit, String name, final String valueSrc) {
+        return  numberField(mapToEdit, name, valueSrc, null);
+    }
+
+    private static JComponent[] booleanField(final Map mapToEdit, String name, final String valueSrc, final Boolean defaultVal) {
         String val = (mapToEdit.get(valueSrc) + "").trim();
-        int startingContent = StringUtils.isNumber(val) ? Integer.parseInt(val) : 0;
+        int startingContent;
+        try {
+            startingContent = StringUtils.isNumber(val) ? Integer.parseInt(val) : (defaultVal.booleanValue() ? 1 : 0);
+        }
+        catch (NullPointerException e) {
+            startingContent = -1;
+        }
 
         JLabel label = new JLabel(name);
 
@@ -196,7 +216,12 @@ public class PropertiesDialog extends JDialog {
         label.setLabelFor(box);
         label.setHorizontalTextPosition(SwingConstants.LEFT);
         label.setBorder(BorderFactory.createEmptyBorder(10, 50, 0, 0));
-        box.setSelected(startingContent == 1);
+        if (startingContent == 1) {
+            box.setSelected(true);
+        }
+        else if (startingContent == 0) {
+            box.setSelected(false);
+        }
 
         box.addActionListener(new ActionListener() {
             @Override
@@ -208,12 +233,18 @@ public class PropertiesDialog extends JDialog {
         return new JComponent[]{label, box};
     }
 
-    private static JComponent[] textBoxField(final Map mapToEdit, String name, final String valueSrc) {
+    private static JComponent[] booleanField(final Map mapToEdit, String name, final String valueSrc) {
+        return booleanField(mapToEdit, name, valueSrc, null);
+    }
+
+    private static JComponent[] textBoxField(final Map mapToEdit, String name, final String valueSrc, final String defaultVal) {
         String startingContent = (String) mapToEdit.get(valueSrc);
-        if (startingContent == null) {
-            startingContent = "";
+        try {
+            startingContent = startingContent.trim();
         }
-        startingContent = startingContent.trim();
+        catch (NullPointerException e) {
+            startingContent = defaultVal;
+        }
 
         JLabel label = new JLabel(name);
 
@@ -259,16 +290,18 @@ public class PropertiesDialog extends JDialog {
         return new JComponent[]{label, northOnlyPanel};
     }
 
-    private static JComponent[] stringField(final Map mapToEdit, String name, final String valueSrc) {
-        if (name == null || valueSrc == null) {
-            return new JComponent[0];
-        }
+    private static JComponent[] textBoxField(final Map mapToEdit, String name, final String valueSrc) {
+        return textBoxField(mapToEdit, name, valueSrc, null);
+    }
 
+    private static JComponent[] stringField(final Map mapToEdit, String name, final String valueSrc, final String defaultVal) {
         String startingContent = (String) mapToEdit.get(valueSrc);
-        if (startingContent == null) {
-            startingContent = "";
+        try {
+            startingContent = startingContent.trim();
         }
-        startingContent = startingContent.trim();
+        catch (NullPointerException e) {
+            startingContent = defaultVal;
+        }
 
         JLabel label = new JLabel(name);
 
@@ -305,5 +338,9 @@ public class PropertiesDialog extends JDialog {
         contentField.setSize(new Dimension(150, 20));
 
         return new JComponent[]{label, contentField};
+    }
+
+    private static JComponent[] stringField(final Map mapToEdit, String name, final String valueSrc) {
+        return stringField(mapToEdit, name, valueSrc, null);
     }
 }
